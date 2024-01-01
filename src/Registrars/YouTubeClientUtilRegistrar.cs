@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Soenneker.Utils.HttpClientCache.Registrar;
 using Soenneker.YouTube.Client.Abstract;
 
 namespace Soenneker.YouTube.Client.Registrars;
@@ -14,6 +15,7 @@ public static class YouTubeClientUtilRegistrar
     /// </summary>
     public static void AddYouTubeClientUtilAsSingleton(this IServiceCollection services)
     {
+        services.AddHttpClientCache();
         services.TryAddSingleton<IYouTubeClientUtil, YouTubeClientUtil>();
     }
 
@@ -22,6 +24,7 @@ public static class YouTubeClientUtilRegistrar
     /// </summary>
     public static void AddYouTubeClientUtilAsScoped(this IServiceCollection services)
     {
+        services.AddHttpClientCache();
         services.TryAddScoped<IYouTubeClientUtil, YouTubeClientUtil>();
     }
 }
