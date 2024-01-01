@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Soenneker.YouTube.Client.Abstract;
 using Soenneker.Tests.FixturedUnit;
 using Xunit;
