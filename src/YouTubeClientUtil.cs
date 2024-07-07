@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using YoutubeExplode;
 using Microsoft.Extensions.Logging;
 using Soenneker.Utils.HttpClientCache.Abstract;
+using System.Threading;
+using Soenneker.Extensions.ValueTask;
 
 namespace Soenneker.YouTube.Client;
 
@@ -19,11 +21,11 @@ public class YouTubeClientUtil: IYouTubeClientUtil
     {
         _httpClientCache = httpClientCache;
 
-        _client = new AsyncSingleton<YoutubeClient>(async () =>
+        _client = new AsyncSingleton<YoutubeClient>(async (token, objects) =>
         {
             logger.LogInformation("Connecting to YouTube...");
 
-            HttpClient httpClient = await _httpClientCache.Get(nameof(YouTubeClientUtil));
+            HttpClient httpClient = await _httpClientCache.Get(nameof(YouTubeClientUtil), cancellationToken: token).NoSync();
 
             var client = new YoutubeClient(httpClient);
 
@@ -31,9 +33,9 @@ public class YouTubeClientUtil: IYouTubeClientUtil
         });
     }
 
-    public ValueTask<YoutubeClient> Get()
+    public ValueTask<YoutubeClient> Get(CancellationToken cancellationToken = default)
     {
-        return _client.Get();
+        return _client.Get(cancellationToken);
     }
 
     public void Dispose()
@@ -49,8 +51,8 @@ public class YouTubeClientUtil: IYouTubeClientUtil
     {
         GC.SuppressFinalize(this);
 
-        await _client.DisposeAsync();
+        await _client.DisposeAsync().NoSync();
 
-        await _httpClientCache.Remove(nameof(YouTubeClientUtil));
+        await _httpClientCache.Remove(nameof(YouTubeClientUtil)).NoSync();
     }
 }

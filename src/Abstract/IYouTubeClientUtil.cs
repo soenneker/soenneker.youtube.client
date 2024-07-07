@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using YoutubeExplode;
 
@@ -9,5 +10,5 @@ namespace Soenneker.YouTube.Client.Abstract;
 /// </summary>
 public interface IYouTubeClientUtil : IDisposable, IAsyncDisposable
 {
-    ValueTask<YoutubeClient> Get();
+    ValueTask<YoutubeClient> Get(CancellationToken cancellationToken = default);
 }
