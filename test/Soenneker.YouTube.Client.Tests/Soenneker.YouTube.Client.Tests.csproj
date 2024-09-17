@@ -31,7 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\src\Soenneker.YouTube.Client.csproj" />
+        <ProjectReference Include="..\..\src\Soenneker.YouTube.Client.csproj" />
     </ItemGroup>
 
 </Project>
