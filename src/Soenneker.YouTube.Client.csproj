@@ -42,7 +42,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
         <PackageReference Include="YoutubeExplode" Version="6.4.2" />
-        <PackageReference Include="Soenneker.Utils.AsyncSingleton" Version="2.1.391" />
+        <PackageReference Include="Soenneker.Utils.AsyncSingleton" Version="2.1.392" />
         <PackageReference Include="Soenneker.Utils.HttpClientCache" Version="2.1.843" />
     </ItemGroup>
 </Project>
