@@ -21,11 +21,11 @@ public class YouTubeClientUtil: IYouTubeClientUtil
     {
         _httpClientCache = httpClientCache;
 
-        _client = new AsyncSingleton<YoutubeClient>(async (token, objects) =>
+        _client = new AsyncSingleton<YoutubeClient>(async (cancellationToken, _) =>
         {
             logger.LogInformation("Connecting to YouTube...");
 
-            HttpClient httpClient = await _httpClientCache.Get(nameof(YouTubeClientUtil), cancellationToken: token).NoSync();
+            HttpClient httpClient = await _httpClientCache.Get(nameof(YouTubeClientUtil), cancellationToken: cancellationToken).NoSync();
 
             var client = new YoutubeClient(httpClient);
 
