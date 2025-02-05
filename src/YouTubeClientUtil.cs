@@ -27,9 +27,7 @@ public class YouTubeClientUtil: IYouTubeClientUtil
 
             HttpClient httpClient = await _httpClientCache.Get(nameof(YouTubeClientUtil), cancellationToken: cancellationToken).NoSync();
 
-            var client = new YoutubeClient(httpClient);
-
-            return client;
+            return new YoutubeClient(httpClient);
         });
     }
 

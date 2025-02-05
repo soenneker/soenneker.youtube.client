@@ -13,18 +13,22 @@ public static class YouTubeClientUtilRegistrar
     /// <summary>
     /// Adds <see cref="IYouTubeClientUtil"/> as a singleton service. <para/>
     /// </summary>
-    public static void AddYouTubeClientUtilAsSingleton(this IServiceCollection services)
+    public static IServiceCollection AddYouTubeClientUtilAsSingleton(this IServiceCollection services)
     {
-        services.AddHttpClientCache();
+        services.AddHttpClientCacheAsSingleton();
         services.TryAddSingleton<IYouTubeClientUtil, YouTubeClientUtil>();
+
+        return services;
     }
 
     /// <summary>
     /// Adds <see cref="IYouTubeClientUtil"/> as a scoped service. <para/>
     /// </summary>
-    public static void AddYouTubeClientUtilAsScoped(this IServiceCollection services)
+    public static IServiceCollection AddYouTubeClientUtilAsScoped(this IServiceCollection services)
     {
-        services.AddHttpClientCache();
+        services.AddHttpClientCacheAsSingleton();
         services.TryAddScoped<IYouTubeClientUtil, YouTubeClientUtil>();
+
+        return services;
     }
 }
