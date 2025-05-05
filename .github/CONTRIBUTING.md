@@ -1,4 +1,4 @@
-# Contributing to Soenneker.YouTube.Client
+﻿# Contributing to Soenneker.YouTube.Client
 
 We're excited that you're interested in contributing!
 
