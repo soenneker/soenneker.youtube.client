@@ -1,4 +1,3 @@
-using System;
 using Soenneker.Utils.AsyncSingleton;
 using Soenneker.YouTube.Client.Abstract;
 using System.Net.Http;
@@ -12,7 +11,7 @@ using Soenneker.Extensions.ValueTask;
 namespace Soenneker.YouTube.Client;
 
 /// <inheritdoc cref="IYouTubeClientUtil"/>
-public class YouTubeClientUtil: IYouTubeClientUtil
+public sealed class YouTubeClientUtil: IYouTubeClientUtil
 {
     private readonly AsyncSingleton<YoutubeClient> _client;
     private readonly IHttpClientCache _httpClientCache;
@@ -38,8 +37,6 @@ public class YouTubeClientUtil: IYouTubeClientUtil
 
     public void Dispose()
     {
-        GC.SuppressFinalize(this);
-
         _client.Dispose();
 
         _httpClientCache.RemoveSync(nameof(YouTubeClientUtil));
@@ -47,8 +44,6 @@ public class YouTubeClientUtil: IYouTubeClientUtil
 
     public async ValueTask DisposeAsync()
     {
-        GC.SuppressFinalize(this);
-
         await _client.DisposeAsync().NoSync();
 
         await _httpClientCache.Remove(nameof(YouTubeClientUtil)).NoSync();

@@ -15,8 +15,7 @@ public static class YouTubeClientUtilRegistrar
     /// </summary>
     public static IServiceCollection AddYouTubeClientUtilAsSingleton(this IServiceCollection services)
     {
-        services.AddHttpClientCacheAsSingleton();
-        services.TryAddSingleton<IYouTubeClientUtil, YouTubeClientUtil>();
+        services.AddHttpClientCacheAsSingleton().TryAddSingleton<IYouTubeClientUtil, YouTubeClientUtil>();
 
         return services;
     }
@@ -26,8 +25,7 @@ public static class YouTubeClientUtilRegistrar
     /// </summary>
     public static IServiceCollection AddYouTubeClientUtilAsScoped(this IServiceCollection services)
     {
-        services.AddHttpClientCacheAsSingleton();
-        services.TryAddScoped<IYouTubeClientUtil, YouTubeClientUtil>();
+        services.AddHttpClientCacheAsSingleton().TryAddScoped<IYouTubeClientUtil, YouTubeClientUtil>();
 
         return services;
     }
