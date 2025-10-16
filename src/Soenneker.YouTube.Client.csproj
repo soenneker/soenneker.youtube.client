@@ -42,6 +42,6 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.10" />
         <PackageReference Include="YoutubeExplode" Version="6.5.5" />
-        <PackageReference Include="Soenneker.Utils.HttpClientCache" Version="3.0.1748" />
+        <PackageReference Include="Soenneker.Utils.HttpClientCache" Version="3.0.1749" />
     </ItemGroup>
 </Project>
