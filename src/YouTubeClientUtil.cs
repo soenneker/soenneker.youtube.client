@@ -11,7 +11,7 @@ using Soenneker.Extensions.ValueTask;
 namespace Soenneker.YouTube.Client;
 
 /// <inheritdoc cref="IYouTubeClientUtil"/>
-public sealed class YouTubeClientUtil: IYouTubeClientUtil
+public sealed class YouTubeClientUtil : IYouTubeClientUtil
 {
     private readonly AsyncSingleton<YoutubeClient> _client;
     private readonly IHttpClientCache _httpClientCache;
@@ -20,11 +20,12 @@ public sealed class YouTubeClientUtil: IYouTubeClientUtil
     {
         _httpClientCache = httpClientCache;
 
-        _client = new AsyncSingleton<YoutubeClient>(async (cancellationToken, _) =>
+        _client = new AsyncSingleton<YoutubeClient>(async cancellationToken =>
         {
             logger.LogInformation("Connecting to YouTube...");
 
-            HttpClient httpClient = await _httpClientCache.Get(nameof(YouTubeClientUtil), cancellationToken: cancellationToken).NoSync();
+            HttpClient httpClient = await _httpClientCache.Get(nameof(YouTubeClientUtil), cancellationToken: cancellationToken)
+                                                          .NoSync();
 
             return new YoutubeClient(httpClient);
         });
@@ -44,8 +45,10 @@ public sealed class YouTubeClientUtil: IYouTubeClientUtil
 
     public async ValueTask DisposeAsync()
     {
-        await _client.DisposeAsync().NoSync();
+        await _client.DisposeAsync()
+                     .NoSync();
 
-        await _httpClientCache.Remove(nameof(YouTubeClientUtil)).NoSync();
+        await _httpClientCache.Remove(nameof(YouTubeClientUtil))
+                              .NoSync();
     }
 }
