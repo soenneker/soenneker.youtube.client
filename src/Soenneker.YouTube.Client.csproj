@@ -14,7 +14,7 @@
         <AssemblyName>Soenneker.YouTube.Client</AssemblyName>
         <PackageId>Soenneker.YouTube.Client</PackageId>
         <PackageTags>youtube client search video singleton youtubeclientutil c# .net csharp dotnet</PackageTags>
-        <Copyright>Copyright © 2023-2025 Jake Soenneker</Copyright>
+        <Copyright>Copyright © 2023-2026 Jake Soenneker</Copyright>
         <Authors>Jake Soenneker</Authors>
         <Company>https://soenneker.com</Company>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
