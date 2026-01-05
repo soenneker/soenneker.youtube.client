@@ -15,20 +15,24 @@ public sealed class YouTubeClientUtil : IYouTubeClientUtil
 {
     private readonly AsyncSingleton<YoutubeClient> _client;
     private readonly IHttpClientCache _httpClientCache;
+    private readonly ILogger<YouTubeClientUtil> _logger;
 
     public YouTubeClientUtil(ILogger<YouTubeClientUtil> logger, IHttpClientCache httpClientCache)
     {
+        _logger = logger;
         _httpClientCache = httpClientCache;
 
-        _client = new AsyncSingleton<YoutubeClient>(async cancellationToken =>
-        {
-            logger.LogInformation("Connecting to YouTube...");
+        _client = new AsyncSingleton<YoutubeClient>(CreateClient);
+    }
 
-            HttpClient httpClient = await _httpClientCache.Get(nameof(YouTubeClientUtil), cancellationToken: cancellationToken)
-                                                          .NoSync();
+    private async ValueTask<YoutubeClient> CreateClient(CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Connecting to YouTube...");
 
-            return new YoutubeClient(httpClient);
-        });
+        HttpClient httpClient = await _httpClientCache.Get(nameof(YouTubeClientUtil), cancellationToken: cancellationToken)
+                                                      .NoSync();
+
+        return new YoutubeClient(httpClient);
     }
 
     public ValueTask<YoutubeClient> Get(CancellationToken cancellationToken = default)
