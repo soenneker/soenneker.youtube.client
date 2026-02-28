@@ -40,6 +40,6 @@
 
     <ItemGroup>
         <PackageReference Include="YoutubeExplode" Version="6.5.7" />
-        <PackageReference Include="Soenneker.Utils.HttpClientCache" Version="4.0.1859" />
+        <PackageReference Include="Soenneker.Utils.HttpClientCache" Version="4.0.1861" />
     </ItemGroup>
 </Project>
