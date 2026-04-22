@@ -1,20 +1,19 @@
 using Soenneker.YouTube.Client.Abstract;
-using Soenneker.Tests.FixturedUnit;
-using Xunit;
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.YouTube.Client.Tests;
 
-[Collection("Collection")]
-public class YouTubeClientUtilTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public class YouTubeClientUtilTests : HostedUnitTest
 {
     private readonly IYouTubeClientUtil _util;
 
-    public YouTubeClientUtilTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public YouTubeClientUtilTests(Host host) : base(host)
     {
         _util = Resolve<IYouTubeClientUtil>(true);
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
