@@ -11,9 +11,9 @@ namespace Soenneker.YouTube.Client.Abstract;
 public interface IYouTubeClientUtil : IDisposable, IAsyncDisposable
 {
     /// <summary>
-    /// Gets the value.
+    /// Returns the configured youtube Client used by the You Tube Client.
     /// </summary>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A task containing the result of the operation.</returns>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>A task whose result is the requested youtube Client.</returns>
     ValueTask<YoutubeClient> Get(CancellationToken cancellationToken = default);
 }
