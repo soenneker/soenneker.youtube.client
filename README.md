@@ -5,40 +5,49 @@
 
 # Soenneker.YouTube.Client
 
-An async thread-safe singleton for the YouTube client YouTubeExplode.
+Provides a lazily created `YoutubeExplode.YoutubeClient` for reading public YouTube metadata and media streams.
 
 ## Install
 
-```bash
+```shell
 dotnet add package Soenneker.YouTube.Client
 ```
 
-## Quick start
+## Registration
 
 ```csharp
 using Soenneker.YouTube.Client.Registrars;
-using Microsoft.Extensions.DependencyInjection;
-
-var services = new ServiceCollection();
-var result = services.AddYouTubeClientUtilAsSingleton();
+services.AddYouTubeClientUtilAsSingleton();
 ```
 
-Adds `IYouTubeClientUtil` as a singleton service.
+Scoped registration is also available:
 
-## What you get
+```csharp
+services.AddYouTubeClientUtilAsScoped();
+```
 
-- `IYouTubeClientUtil` — An async thread-safe singleton for the YouTube client YouTubeExplode.
-- `YouTubeClientUtilRegistrar` — An async thread-safe singleton for the YouTube client YouTubeExplode.
+Each provider owns its cached HTTP client. Scoped providers use independent cache entries, so disposing one scope does not remove another scope's client.
 
-## API at a glance
+## Usage
 
-| API | What it does | Result / important behavior |
-| --- | --- | --- |
-| `YouTubeClientUtilRegistrar.AddYouTubeClientUtilAsSingleton(services)` | Adds `IYouTubeClientUtil` as a singleton service. | The same service collection, so additional registrations can be chained. |
-| `YouTubeClientUtilRegistrar.AddYouTubeClientUtilAsScoped(services)` | Adds `IYouTubeClientUtil` as a scoped service. | The same service collection, so additional registrations can be chained. |
+```csharp
+public sealed class VideoReader
+{
+    private readonly IYouTubeClientUtil _youtube;
 
-## Practical notes
+    public VideoReader(IYouTubeClientUtil youtube)
+    {
+        _youtube = youtube;
+    }
 
-- Reuse the registered client instead of constructing one per operation.
-- Calls that return a cached or singleton value reuse the same instance until the owning service is disposed.
-- Dispose instances you own when their scope ends so held resources can be released.
+    public async Task PrintTitle(string videoUrl, CancellationToken cancellationToken)
+    {
+        YoutubeClient client = await _youtube.Get(cancellationToken);
+        var video = await client.Videos.GetAsync(videoUrl, cancellationToken);
+
+        Console.WriteLine($"{video.Title} — {video.Author.ChannelTitle}");
+    }
+}
+```
+
+The package does not use the official YouTube Data API and does not require an API key. Behavior follows YouTubeExplode and can be affected by changes to YouTube's public site.

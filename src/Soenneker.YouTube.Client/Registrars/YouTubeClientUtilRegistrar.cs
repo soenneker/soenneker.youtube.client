@@ -6,12 +6,12 @@ using Soenneker.YouTube.Client.Abstract;
 namespace Soenneker.YouTube.Client.Registrars;
 
 /// <summary>
-/// An async thread-safe singleton for the YouTube client YouTubeExplode
+/// Registers the YouTubeExplode client provider.
 /// </summary>
 public static class YouTubeClientUtilRegistrar
 {
     /// <summary>
-    /// Adds <see cref="IYouTubeClientUtil"/> as a singleton service. <para/>
+    /// Adds <see cref="IYouTubeClientUtil"/> as a singleton service.
     /// </summary>
     /// <param name="services">Service collection that receives the registration.</param>
     /// <returns>The same service collection, so additional registrations can be chained.</returns>
@@ -23,7 +23,7 @@ public static class YouTubeClientUtilRegistrar
     }
 
     /// <summary>
-    /// Adds <see cref="IYouTubeClientUtil"/> as a scoped service. <para/>
+    /// Adds <see cref="IYouTubeClientUtil"/> as a scoped service while retaining the singleton HTTP client cache.
     /// </summary>
     /// <param name="services">Service collection that receives the registration.</param>
     /// <returns>The same service collection, so additional registrations can be chained.</returns>

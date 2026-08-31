@@ -7,15 +7,16 @@ using Microsoft.Extensions.Logging;
 using Soenneker.Utils.HttpClientCache.Abstract;
 using System.Threading;
 using Soenneker.Extensions.ValueTask;
+using System;
 
 namespace Soenneker.YouTube.Client;
 
-/// <inheritdoc cref="IYouTubeClientUtil"/>
 public sealed class YouTubeClientUtil : IYouTubeClientUtil
 {
     private readonly AsyncSingleton<YoutubeClient> _client;
     private readonly IHttpClientCache _httpClientCache;
     private readonly ILogger<YouTubeClientUtil> _logger;
+    private readonly string _clientId = $"{nameof(YouTubeClientUtil)}:{Guid.NewGuid():N}";
 
     public YouTubeClientUtil(ILogger<YouTubeClientUtil> logger, IHttpClientCache httpClientCache)
     {
@@ -29,7 +30,7 @@ public sealed class YouTubeClientUtil : IYouTubeClientUtil
     {
         _logger.LogInformation("Connecting to YouTube...");
 
-        HttpClient httpClient = await _httpClientCache.Get(nameof(YouTubeClientUtil), cancellationToken: cancellationToken)
+        HttpClient httpClient = await _httpClientCache.Get(_clientId, cancellationToken: cancellationToken)
                                                       .NoSync();
 
         return new YoutubeClient(httpClient);
@@ -40,26 +41,19 @@ public sealed class YouTubeClientUtil : IYouTubeClientUtil
         return _client.Get(cancellationToken);
     }
 
-    /// <summary>
-    /// Releases resources used by the current instance.
-    /// </summary>
     public void Dispose()
     {
         _client.Dispose();
 
-        _httpClientCache.RemoveSync(nameof(YouTubeClientUtil));
+        _httpClientCache.RemoveSync(_clientId);
     }
 
-    /// <summary>
-    /// Asynchronously releases resources used by the current instance.
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation.</returns>
     public async ValueTask DisposeAsync()
     {
         await _client.DisposeAsync()
                      .NoSync();
 
-        await _httpClientCache.Remove(nameof(YouTubeClientUtil))
+        await _httpClientCache.Remove(_clientId)
                               .NoSync();
     }
 }

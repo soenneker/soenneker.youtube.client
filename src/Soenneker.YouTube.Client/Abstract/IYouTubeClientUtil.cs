@@ -6,14 +6,14 @@ using YoutubeExplode;
 namespace Soenneker.YouTube.Client.Abstract;
 
 /// <summary>
-/// An async thread-safe singleton for the YouTube client YouTubeExplode
+/// Provides a lazily created YouTubeExplode client over an owned cached HTTP client.
 /// </summary>
 public interface IYouTubeClientUtil : IDisposable, IAsyncDisposable
 {
     /// <summary>
-    /// Returns the configured youtube Client used by the You Tube Client.
+    /// Gets the cached YouTubeExplode client.
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
-    /// <returns>A task whose result is the requested youtube Client.</returns>
+    /// <returns>The YouTubeExplode client.</returns>
     ValueTask<YoutubeClient> Get(CancellationToken cancellationToken = default);
 }
