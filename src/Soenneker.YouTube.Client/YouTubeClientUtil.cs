@@ -11,6 +11,7 @@ using System;
 
 namespace Soenneker.YouTube.Client;
 
+/// <inheritdoc cref="IYouTubeClientUtil" />
 public sealed class YouTubeClientUtil : IYouTubeClientUtil
 {
     private readonly AsyncSingleton<YoutubeClient> _client;
